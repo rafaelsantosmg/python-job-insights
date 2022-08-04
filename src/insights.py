@@ -38,8 +38,10 @@ def get_max_salary(path):
     jobs_read = read(path)
     max_salaries = list()
     for job_max_salary in jobs_read:
-        if len(job_max_salary['max_salary']) != 0 and \
-                job_max_salary['max_salary'] != "invalid":
+        if (
+            len(job_max_salary["max_salary"]) != 0
+            and job_max_salary["max_salary"] != "invalid"
+        ):
             max_salaries.append(int(job_max_salary["max_salary"]))
     max_salary = max(max_salaries)
     return max_salary
@@ -49,8 +51,10 @@ def get_min_salary(path):
     jobs_read = read(path)
     min_salaries = list()
     for job_min_salary in jobs_read:
-        if len(job_min_salary['min_salary']) != 0 and \
-                job_min_salary['min_salary'] != "invalid":
+        if (
+            len(job_min_salary["min_salary"]) != 0
+            and job_min_salary["min_salary"] != "invalid"
+        ):
             min_salaries.append(int(job_min_salary["min_salary"]))
     min_salary = min(min_salaries)
     return min_salary
@@ -74,18 +78,11 @@ def matches_salary_range(job, salary):
 
 
 def filter_by_salary_range(jobs, salary):
-    """Filters a list of jobs by salary range
-
-    Parameters
-    ----------
-    jobs : list
-        The jobs to be filtered
-    salary : int
-        The salary to be used as filter
-
-    Returns
-    -------
-    list
-        Jobs whose salary range contains `salary`
-    """
-    return []
+    filter_jobs = list()
+    for job in jobs:
+        try:
+            if matches_salary_range(job, salary):
+                filter_jobs.append(job)
+        except ValueError:
+            continue
+    return filter_jobs
